@@ -9,11 +9,11 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" class="form-control" placeholder="Nama" name="nama">
+                            <input type="text" class="form-control" placeholder="Nama" name="nama" required>
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea class="form-control" placeholder="Deskripsi" name="deskripsi"></textarea>
+                            <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Latitude</label>
@@ -30,6 +30,11 @@
                         </div>
                         <div class="form-group">
                             <label>Parent ID</label>
+                            <select class="form-control select2" style="width: 100%;" required>
+                                <?php foreach($query as $data){?>
+                                    <option value="<?php echo $data->id?>"><?php echo $data->id.' - '.$data->nama?></option>
+                                <?php }?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputFile">Input Gambar</label>

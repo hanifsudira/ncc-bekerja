@@ -13,7 +13,7 @@
                             <th>Nama</th>
                             <th>Detail</th>
                             <th>Aksi</th>
-                            <th>Parent ID</th>
+                            <th>Parent Name</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,7 +31,7 @@
                                     if($data->parent_id == 0)
                                         echo "#";
                                     else
-                                        echo $data->parent_id;
+                                        echo $data->parent_name;
                                 ?>
                             </td>
                         </tr>

@@ -1,32 +1,52 @@
 <section class="content">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="form-group">
-        <label>Cari</label>
-        <input class="search-input form-control"></input>
-      </div>
-      <br>
-      <div id="jstree"></div>
-    <div class="col-md-12">
-  </div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>Item</h3>
+                    <p><?php echo $all_item;?></p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <!--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>Instansi</h3>
+                    <p><?php echo $this->session->instansi?></p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <!--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>User Email</h3>
+                    <p><?php echo $this->session->email?></p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <!--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>Last Login</h3>
+                    <p><?php echo $last_login;?></p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <!--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+            </div>
+        </div>
+    </div>
 </section>
-<script>
-  $(function() {
-    $(".search-input").keyup(function() {
-      var searchString = $(this).val();
-      console.log(searchString);
-      $('#jstree').jstree('search', searchString);
-    });
-
-    $('#jstree').jstree({
-      'core': {
-        'data': <?php echo $test;?>
-      },
-      "search": {
-        "case_insensitive": true,
-        "show_only_matches" : true
-      },
-      "plugins": ["search","wholerow"]
-    });
-  });
-</script>

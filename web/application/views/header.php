@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/alertify/css/themes/bootstrap.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datepicker/datepicker3.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/jstree/dist/themes/default/style.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/select2/select2.min.css">
     <style>
         textarea {
             resize: vertical; /* user can resize vertically, but width is fixed */
@@ -96,12 +97,12 @@
               </li>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <span class="hidden-xs"><?php echo $this->session->userdata('username')?></span>
+                  <span class="hidden-xs"><?php echo $this->session->userdata('email')?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li class="user-header">
                     <p>
-                      Teknik Informatika ITS
+                        <?php echo $this->session->userdata('instansi')?>
                     </p>
                   </li>
                   <li class="user-footer">
@@ -109,7 +110,7 @@
                       <a href="#" class="btn btn-default btn-flat">Ganti Password</a>
                     </div>
                     <div class="pull-right">
-                      <a href="<?php echo base_url();?>welcome/logout" class="btn btn-default btn-flat">Keluar</a>
+                      <a href="<?php echo base_url();?>auth/logout" class="btn btn-default btn-flat">Keluar</a>
                     </div>
                   </li>
                 </ul>
@@ -125,7 +126,7 @@
             <li><a href="<?php echo base_url();?>tree/insertnew"><i class="fa fa-circle-o"></i>Insert New</a></li>
             <li><a href="<?php echo base_url();?>tree/hirarchy"><i class="fa fa-circle-o"></i>Tree View</a></li>
             <li><a href="<?php echo base_url();?>tree/tableview"><i class="fa fa-circle-o"></i>Table View</a></li>
-            <li><a href="<?php echo base_url();?>tree/history"><i class="fa fa-circle-o"></i>History</a></li>
+            <!--<li><a href="<?php /*echo base_url();*/?>tree/history"><i class="fa fa-circle-o"></i>History</a></li>-->
           </ul>
         </section>
       </aside>
