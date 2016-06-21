@@ -3,17 +3,17 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Insert New</h3>
+                    <h3 class="box-title">Edit New</h3>
                 </div>
                 <form action="<?php echo base_url()?>tree/insertupload" enctype="multipart/form-data" method="post" role="form">
                     <div class="box-body">
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" class="form-control" placeholder="Nama" name="nama" required>
+                            <input type="text" class="form-control" placeholder="<?php echo $query->nama;?>" name="nama" required>
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" required></textarea>
+                            <textarea class="form-control" placeholder="<?php echo $query->deskripsi;?>" name="deskripsi" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Latitude</label>
@@ -28,23 +28,13 @@
                             <div id="dvMap" class="form-control" style="auto; height: 400px">
                             </div>
                         </div>
-                        <?php if($this->session->root){ ?>
-                            <div class="form-group">
-                                <label>Parent ID</label>
-                                <select class="form-control select2" style="width: 100%;" name="parent" required>
-                                    <?php foreach($query as $data){?>
-                                        <option value="<?php echo $data->id?>|<?php echo $data->nama?>"><?php echo $data->id.' - '.$data->nama?></option>
-                                    <?php }?>
-                                </select>
-                            </div>
-                        <?php }?>
                         <div class="form-group">
                             <label for="exampleInputFile">Input Gambar</label>
                             <input type="file" name="path_gambar" required>
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
@@ -92,9 +82,4 @@
         }
     });
 </script>
-<?php if($error){?>
-    <script type="text/javascript">
-        alertify.success('Berhasil Menambahkan Item');
-    </script>
-<?php }?>
 

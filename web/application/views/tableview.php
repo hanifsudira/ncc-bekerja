@@ -18,23 +18,18 @@
                         </thead>
                         <tbody>
                         <?php foreach($query as $data){?>
-                        <tr>
-                            <td><?php echo $data->id?></td>
-                            <td><?php echo $data->nama?></td>
-                            <td><a href="#" class="btn btn-primary btn-xs">Lihat</a></td>
-                            <td>
-                                <a href="#" class="btn btn-danger btn-xs">Hapus</a>
-                                <a href="#" class="btn btn-success btn-xs">Edit</a>
-                            </td>
-                            <td>
-                                <?php
-                                    if($data->parent_id == 0)
-                                        echo "#";
-                                    else
-                                        echo $data->parent_name;
-                                ?>
-                            </td>
-                        </tr>
+                            <?php if($data->parent_id){?>
+                                <tr>
+                                    <td><?php echo $data->id?></td>
+                                    <td><?php echo $data->nama?></td>
+                                    <td><a href="<?php echo base_url()?>tree/lihat/<?php echo base64_encode($data->id)?>" class="btn btn-primary btn-xs">Lihat</a></td>
+                                    <td>
+                                        <a href="<?php echo base_url()?>tree/hapus/<?php echo base64_encode($data->id)?>" class="btn btn-danger btn-xs hapus">Hapus</a>
+                                        <!--<a href="<?php /*echo base_url()*/?>tree/edit/<?php /*echo base64_encode($data->id)*/?>" class="btn btn-success btn-xs">Edit</a>-->
+                                    </td>
+                                    <td><?php echo $data->parent_name;?></td>
+                                </tr>
+                            <?php }?>
                         <?php }?>
                         </tbody>
                     </table>
@@ -48,5 +43,8 @@
         $("#example1").DataTable( {
             responsive: true
         } );
+        $(".hapus").click(function() {
+            return confirm("Yakin Akan Menghapus?");
+        });
     });
 </script>

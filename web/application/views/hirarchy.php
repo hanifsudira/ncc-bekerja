@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <div class="form-group">
         <label>Cari</label>
-        <input class="search-input form-control"></input>
+          <input class="search-input form-control"></input>
       </div>
       <br>
       <div id="jstree"></div>

@@ -40,7 +40,7 @@
                 </div><!-- /.col -->
             </div>
         </form>
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="<?php echo base_url();?>auth/register" class="text-center">Register a new membership</a>
     </div>
 </div>
 <script src="<?php echo base_url();?>assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -55,5 +55,10 @@
         });
     });
 </script>
+<?php if($error){?>
+    <script type="text/javascript">
+        alertify.success('Silahkan Login');
+    </script>
+<?php }?>
 </body>
 </html>

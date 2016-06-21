@@ -7,12 +7,30 @@ class Auth extends CI_Controller {
         parent::__construct();
     }
 
-    public function index(){
-        $this->load->view('login');
+    public function index($msg=null){
+        $data['error'] = (base64_decode($msg)=="success" ? true : null);
+        $this->load->view('login',$data);
     }
 
-    public function register(){
-        $this->load->view('register');
+    public function register($msg=null){
+        $data['error'] = (base64_decode($msg)=="error" ? true : null);
+        $this->load->view('register',$data);
+    }
+
+    public function registerprocess(){
+        $this->load->model('hirarchy');
+        $data = array(
+            'email'     => $this->input->post('email'),
+            'password'  => $this->input->post('password'),
+            'instansi'  => $this->input->post('instansi')
+        );
+        $query = $this->hirarchy->register($data);
+        if($query){
+            redirect('/'.base64_encode('success'));
+        }
+        else{
+            redirect('auth/register/'.base64_encode('error'));
+        }
     }
 
     public function login(){

@@ -50,3 +50,9 @@
         </div>
     </div>
 </section>
+<?php if(!$this->session->root){?>
+    <script>
+        alert("Define Your Item Root");
+        window.location="<?php echo base_url()?>tree/insertnew";
+    </script>
+<?php }?>
