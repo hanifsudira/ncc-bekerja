@@ -6,41 +6,62 @@
                     <h3 class="box-title">Insert New</h3>
                 </div>
                 <form action="<?php echo base_url()?>tree/insertupload" enctype="multipart/form-data" method="post" role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label>Nama</label>
-                            <input type="text" class="form-control" placeholder="Nama" name="nama" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Latitude</label>
-                            <input type="text" class="form-control" id="lat" name="latitude" >
-                        </div>
-                        <div class="form-group">
-                            <label>longitude</label>
-                            <input type="text" class="form-control" id="lon" name="longitude" >
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Location</label>
-                            <div id="dvMap" class="form-control" style="auto; height: 400px">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#data" data-toggle="tab">Item</a></li>
+                            <li><a href="#location" data-toggle="tab">Lokasi</a></li>
+                            <li><a href="#file" data-toggle="tab">File Pendukung</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="data">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Parent ID</label>
+                                        <input type="text" class="form-control" placeholder="<?php echo $query;?>" value="<?php echo $query;?>" name="pid" disabled required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nama</label>
+                                        <input type="text" class="form-control" placeholder="Nama" name="nama" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Serial Number</label>
+                                        <input type="text" class="form-control" placeholder="Serial Number" name="sn" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Deskripsi</label>
+                                        <textarea class="form-control" placeholder="Deskripsi" name="deskripsi" required></textarea>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <?php if($this->session->root){ ?>
-                            <div class="form-group">
-                                <label>Parent ID</label>
-                                <select class="form-control select2" style="width: 100%;" name="parent" required>
-                                    <?php foreach($query as $data){?>
-                                        <option value="<?php echo $data->id?>|<?php echo $data->nama?>"><?php echo $data->id.' - '.$data->nama?></option>
-                                    <?php }?>
-                                </select>
+                            <div class="tab-pane" id="location">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Latitude</label>
+                                        <input type="text" class="form-control" id="lat" name="latitude" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label>longitude</label>
+                                        <input type="text" class="form-control" id="lon" name="longitude" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Location</label>
+                                        <div id="dvMap" class="form-control" style="auto; height: 400px">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        <?php }?>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Input Gambar</label>
-                            <input type="file" name="path_gambar" required>
+                            <div class="tab-pane" id="file">
+                                <div class="box-body input_fields_wrap">
+                                    <div class="form-group">
+                                        <div class="col-xs-5">
+                                            <input type="file" class="form-control" name="inputfile[]" />
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <button class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="box-footer">
@@ -51,7 +72,7 @@
         </div>
     </div>
 </section>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAoc-YJOyHqg7eAQCJnIDPRfNZLvSwRfo0"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         var lat=0.0;
@@ -62,9 +83,9 @@
             }
             function showPosition(position) {
                 lat=position.coords.latitude;
-                console.log(lat);
+                //console.log(lat);
                 long=position.coords.longitude;
-                console.log(long);
+                //console.log(long);
                 out_map();
             }
         }
@@ -85,16 +106,46 @@
                 map: map,
                 title:"You are here!"
             });
+
+            google.maps.event.trigger(map, 'resize');
+
             if(coords){
                 document.getElementById("lat").value = lat;
                 document.getElementById("lon").value = long;
             }
+
+
+            $('a[href="#location"]').on('shown', function(e) {
+                google.maps.event.trigger(map, 'resize');
+            });
         }
+
+        var max_fields = 5;
+        var wrapper = (".input_fields_wrap");
+        var add = (".addButton");
+        var x = 1;
+
+        $(add).on("click",function(e){
+            e.preventDefault();
+            if(x < max_fields){
+                x++;
+                $(wrapper).append(
+                    '<div class="form-group">' +
+                        '<div class="col-xs-5">' +
+                            '<input type="file" class="form-control" name="inputfile[]" />' +
+                        '</div>'+
+                        '<div class="col-xs-4">'+
+                            '<button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>'+
+                        '</div>'+
+                    '</div>'
+                );
+            }
+        });
+
+        $(wrapper).on("click",".removeButton", function(e){
+            e.preventDefault(); $(this).parent('div').parent('div').remove(); x--;
+        });
+
     });
 </script>
-<?php if($error){?>
-    <script type="text/javascript">
-        alertify.success('Berhasil Menambahkan Item');
-    </script>
-<?php }?>
 

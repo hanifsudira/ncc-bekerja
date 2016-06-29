@@ -47,7 +47,7 @@ Class Hirarchy extends CI_Model {
     }
 
     public function getuserdata($email){
-        $query = $this->db->query("select email,instansi,root_item from user where email='$email';");
+        $query = $this->db->query("select email,instansi,root_item,user_type from user where email='$email';");
         return $query->result();
     }
 
@@ -79,6 +79,4 @@ Class Hirarchy extends CI_Model {
         $query = $this->db->query("CALL sp_hapusitem($id);");
         return $query->row()->balik;
     }
-
-
 }

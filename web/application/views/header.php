@@ -123,10 +123,11 @@
         <section class="sidebar">
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li><a href="<?php echo base_url();?>tree/insertnew"><i class="fa fa-circle-o"></i>Insert New</a></li>
             <li><a href="<?php echo base_url();?>tree/hirarchy"><i class="fa fa-circle-o"></i>Tree View</a></li>
             <li><a href="<?php echo base_url();?>tree/tableview"><i class="fa fa-circle-o"></i>Table View</a></li>
-            <!--<li><a href="<?php /*echo base_url();*/?>tree/history"><i class="fa fa-circle-o"></i>History</a></li>-->
+              <?php if($this->session->user_type == 1){?>
+                <li><a href="<?php echo base_url();?>tree/adduser"><i class="fa fa-circle-o"></i>Add New User</a></li>
+              <?php }?>
           </ul>
         </section>
       </aside>

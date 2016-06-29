@@ -22,9 +22,9 @@
                                 <tr>
                                     <td><?php echo $data->id?></td>
                                     <td><?php echo $data->nama?></td>
-                                    <td><a href="<?php echo base_url()?>tree/lihat/<?php echo base64_encode($data->id)?>" class="btn btn-primary btn-xs">Lihat</a></td>
+                                    <td><a href="<?php echo base_url()?>tree/lihat/<?php echo $data->id?>" class="btn btn-primary btn-xs">Lihat</a></td>
                                     <td>
-                                        <a href="<?php echo base_url()?>tree/hapus/<?php echo base64_encode($data->id)?>" class="btn btn-danger btn-xs hapus">Hapus</a>
+                                        <a href="<?php echo base_url()?>tree/hapus/<?php echo $data->id?>" class="btn btn-danger btn-xs hapus">Hapus</a>
                                         <!--<a href="<?php /*echo base_url()*/?>tree/edit/<?php /*echo base64_encode($data->id)*/?>" class="btn btn-success btn-xs">Edit</a>-->
                                     </td>
                                     <td><?php echo $data->parent_name;?></td>

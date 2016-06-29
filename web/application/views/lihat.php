@@ -38,7 +38,7 @@
         <img src="<?php echo base_url()?>assets/img/<?php echo $query->path_gambar?>" alt="Mountain View" style="width:auto;">
     </div>
 </section>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAoc-YJOyHqg7eAQCJnIDPRfNZLvSwRfo0"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         var lat=parseFloat(<?php echo $query->lat?>);

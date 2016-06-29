@@ -41,7 +41,7 @@
         </div>
     </div>
 </section>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAoc-YJOyHqg7eAQCJnIDPRfNZLvSwRfo0"></script>
 <script type="text/javascript">
     $( document ).ready(function() {
         var lat=0.0;

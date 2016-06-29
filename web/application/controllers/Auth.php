@@ -44,10 +44,11 @@ class Auth extends CI_Controller {
                 'email'     => $result->email,
                 'instansi'  => $result->instansi,
                 'root'      => $result->root_item,
-                'login'     => 1
+                'login'     => 1,
+                'user_type' => $result->user_type
             );
             $this->session->set_userdata($userdata);
-            var_dump($userdata);
+            //var_dump($userdata);
             redirect('tree/dashboard');
         }
         else{

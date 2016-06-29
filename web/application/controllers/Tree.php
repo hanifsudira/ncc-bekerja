@@ -18,10 +18,9 @@ class Tree extends MYCI_Controller{
         $this->load->view('footer');
     }
 
-    public function insertnew($msg=null){
+    public function insertnew($id){
         $this->load->model('hirarchy');
-        $data['query'] = $this->hirarchy->getitem($this->session->root);
-        $data['error'] = (base64_decode($msg)=="success" ? true : null);
+        $data['query'] = $id;
         $data['page'] = 'Insert New';
         $this->load->view('header',$data);
         $this->load->view('insertnew');
@@ -67,22 +66,23 @@ class Tree extends MYCI_Controller{
     }
 
     public function insertupload(){
-        $path = './assets/img/'.$this->session->email;
+        $path = './assets/file/'.$this->session->email;
         if(!is_dir($path)){
             mkdir($path,0777,TRUE);
         }
+
         $config = array(
             'upload_path'   => $path,
-            'allowed_types' => 'gif|jpg|png',
-            'max_size'      => '4096',
-            'max_width'     => '1907',
-            'max_height'    => '1280'
+            'allowed_types' => '',
+            'max_size'      => '4096'
         );
-        $this->load->library('upload',$config);
 
-        if(!$this->upload->do_upload('path_gambar')){
+        $this->load->library('upload');
+
+        if(!$this->upload->do_upload()){
             echo $this->upload->display_errors();
         }
+
         else{
             $this->load->model('hirarchy');
             $fileinfo = $this->upload->data();
@@ -115,14 +115,14 @@ class Tree extends MYCI_Controller{
 
     public function hapus($inid){
         $this->load->model('hirarchy');
-        $id = base64_decode($inid);
+        $id = $inid;
         $query = $this->hirarchy->hapus($id);
-        if($query) redirect('/tree/tableview');
+        if($query) redirect('/tree/hirarchy');
     }
 
     public function edit($inid){
         $this->load->model('hirarchy');
-        $id = base64_decode($inid);
+        $id = $inid;
         $data['query'] = $this->hirarchy->getoneitem($id)[0];
         $data['page'] = 'Edit Item';
         $this->load->view('header',$data);
@@ -132,7 +132,7 @@ class Tree extends MYCI_Controller{
 
     public function lihat($inid){
         $this->load->model('hirarchy');
-        $id = base64_decode($inid);
+        $id = $inid;
         $data['query'] = $this->hirarchy->getoneitem($id)[0];
         $data['page'] = 'Lihat Item';
         $this->load->view('header',$data);
@@ -140,4 +140,15 @@ class Tree extends MYCI_Controller{
         $this->load->view('footer');
     }
 
+    public function adduser(){
+        $this->load->model('hirarchy');
+        $data['query'] =
+        $this->load->view('header',$data);
+        $this->load->view('lihat');
+        $this->load->view('footer');
+    }
+
+    public function adduserpros(){
+
+    }
 }
