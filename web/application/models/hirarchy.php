@@ -9,7 +9,7 @@ Class Hirarchy extends CI_Model {
 
     public function getitem($id){
         // $query = $this->db->query("SELECT * FROM item WHERE id='$id' UNION SELECT * FROM item WHERE root_id='$id'");
-        $query=$this->db->query("SELECT * FROM item WHERE ");
+        $query=$this->db->query("SELECT * FROM item");
         return $query->result();
     }
 
