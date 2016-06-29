@@ -49,7 +49,7 @@ class Auth extends CI_Controller {
             );
             $this->session->set_userdata($userdata);
             //var_dump($userdata);
-            redirect('tree/dashboard');
+            redirect('tree/hirarchy');
         }
         else{
             redirect('/');

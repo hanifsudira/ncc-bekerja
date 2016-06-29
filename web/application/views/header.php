@@ -87,7 +87,7 @@
   <body class="sidebar-mini skin-red-light">
     <div class="wrapper">
       <header class="main-header">
-        <a href="<?php echo base_url();?>tree/dashboard" class="logo">
+        <a href="<?php echo base_url();?>tree/hirarchy" class="logo">
           <span class="logo-mini">TC</span>
           <span class="logo-lg"><b>Tree </b>VIEW</span>
         </a>
@@ -127,7 +127,7 @@
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li><a href="<?php echo base_url();?>tree/hirarchy"><i class="fa fa-circle-o"></i>Tree View</a></li>
-            <li><a href="<?php echo base_url();?>tree/tableview"><i class="fa fa-circle-o"></i>Table View</a></li>
+            <!--<li><a href="<?php /*echo base_url();*/?>tree/tableview"><i class="fa fa-circle-o"></i>Table View</a></li>-->
               <?php if($this->session->user_type == 1){?>
                 <li><a href="<?php echo base_url();?>tree/adduser"><i class="fa fa-circle-o"></i>Add New User</a></li>
               <?php }?>

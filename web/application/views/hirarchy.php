@@ -16,8 +16,6 @@
       var searchString = $(this).val();
       $('#jstree').jstree('search', searchString);
     });
-    $("#jstree").jstree("remove", $("#1"));
-
     $('#jstree').jstree({
       'core': {
         'data': <?php echo $test;?>
@@ -77,16 +75,5 @@
         }
       }
     });
-
   });
-
-$(window).load(function(){
-    var root_id="<?php echo $this->session->root;?>";
-    $("#jstree ul li").each(function(){
-      console.log(this);
-      if (this.id!=root_id) {
-        // $(this).remove();
-      };
-    });
-});
 </script>
