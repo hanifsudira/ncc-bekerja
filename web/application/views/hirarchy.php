@@ -14,9 +14,9 @@
   $(function() {
     $(".search-input").keyup(function() {
       var searchString = $(this).val();
-      console.log(searchString);
       $('#jstree').jstree('search', searchString);
     });
+    $("#jstree").jstree("remove", $("#1"));
 
     $('#jstree').jstree({
       'core': {
@@ -28,5 +28,16 @@
       },
       "plugins": ["search","wholerow"]
     });
+
   });
+
+$(window).load(function(){
+    var root_id="<?php echo $this->session->root;?>";
+    $("#jstree ul li").each(function(){
+      console.log(this);
+      if (this.id!=root_id) {
+        // $(this).remove();
+      };
+    });
+});
 </script>

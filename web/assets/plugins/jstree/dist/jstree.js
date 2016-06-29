@@ -11,6 +11,7 @@
 		factory(jQuery);
 	}
 }(function ($, undefined) {
+
 	"use strict";
 /*!
  * jsTree 3.3.1
@@ -28,6 +29,8 @@
 /*jshint -W083 */
 
 	// prevent another load? maybe there is a better way?
+
+
 	if($.jstree) {
 		return;
 	}
@@ -61,6 +64,7 @@
 	_temp1.appendChild(_temp2);
 	_node.appendChild(_temp1);
 	_temp1 = _temp2 = null;
+	
 
 
 	/**
@@ -101,20 +105,27 @@
 	 * @return {jsTree} the new instance
 	 */
 	$.jstree.create = function (el, options) {
+
 		var tmp = new $.jstree.core(++instance_counter),
 			opt = options;
+
 		options = $.extend(true, {}, $.jstree.defaults, options);
 		if(opt && opt.plugins) {
 			options.plugins = opt.plugins;
 		}
 		$.each(options.plugins, function (i, k) {
+
 			if(i !== 'core') {
 				tmp = tmp.plugin(k, options[k]);
 			}
 		});
 		$(el).data('jstree', tmp);
 		tmp.init(el, options);
-		return tmp;
+		var root_id=1;
+		var li=$(tmp).first();
+		
+		// return tmp;
+
 	};
 	/**
 	 * remove all traces of jstree from the DOM and destroy all instances
@@ -245,9 +256,13 @@
 				return false;
 			}
 		});
+	/*	  var root_id="1";
+    var root=$("#"+root_id);
+    
 		// if there was a method call with a valid return value - return that, otherwise continue the chain
 		return result !== null && result !== undefined ?
 			result : this;
+
 	};
 	/**
 	 * used to find elements containing an instance
@@ -473,6 +488,7 @@
 		 * @trigger init.jstree, loading.jstree, loaded.jstree, ready.jstree, changed.jstree
 		 */
 		init : function (el, options) {
+
 			this._model = {
 				data : {},
 				changed : [],
@@ -493,6 +509,8 @@
 				children_d : [],
 				state : { loaded : false }
 			};
+
+
 
 			this.element = $(el).addClass('jstree jstree-' + this._id);
 			this.settings = options;
@@ -524,16 +542,27 @@
 					return this.nodeType === 3 && (!this.nodeValue || /^\s+$/.test(this.nodeValue));
 				})
 				.remove();
-			this.element.html("<"+"ul class='jstree-container-ul jstree-children' role='group'><"+"li id='j"+this._id+"_loading' class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='tree-item'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
-			this.element.attr('aria-activedescendant','j' + this._id + '_loading');
-			this._data.core.li_height = this.get_container_ul().children("li").first().height() || 24;
+			if(this._id==1){
+				this.element.html("<"+"ul class='jstree-container-ul jstree-children' role='group'><li></li></ul>");
+			}
+			else{
+				
+				this.element.html("<"+"ul class='jstree-container-ul jstree-children' role='group'><"+"li id='j"+this._id+"_loading' class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='tree-item'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
+				this.element.attr('aria-activedescendant','j' + this._id + '_loading');
+				this._data.core.li_height = this.get_container_ul().children("li").first().height() || 24;
+			}
+				this.trigger("loading");
+
+				this.load_node($.jstree.root);
 			/**
 			 * triggered after the loading text is shown and before loading starts
 			 * @event
 			 * @name loading.jstree
 			 */
-			this.trigger("loading");
-			this.load_node($.jstree.root);
+			
+			
+
+
 		},
 		/**
 		 * destroy an instance
@@ -1729,6 +1758,9 @@
 						}
 						// 2) populate children (foreach)
 						for(i = 0, j = dat.length; i < j; i++) {
+							if (dat[i].parent==null) {
+								continue;
+							};
 							m[dat[i].parent.toString()].children.push(dat[i].id.toString());
 							// populate parent.children_d
 							p.children_d.push(dat[i].id.toString());
@@ -2224,9 +2256,11 @@
 				}
 			}
 			if(this._model.force_full_redraw) {
-				f.className = this.get_container_ul()[0].className;
-				f.setAttribute('role','group');
-				this.element.empty().append(f);
+				if (typeof(this.get_container_ul()[0]) !=="undefined") {
+					f.className = this.get_container_ul()[0].className;
+					f.setAttribute('role','group');
+					this.element.empty().append(f);				
+				};
 				//this.get_container_ul()[0].appendChild(f);
 			}
 			if(fe !== null) {
@@ -2866,6 +2900,7 @@
 		 * @trigger hide_node.jstree
 		 */
 		hide_node : function (obj, skip_redraw) {
+
 			var t1, t2;
 			if($.isArray(obj)) {
 				obj = obj.slice();
@@ -3454,18 +3489,22 @@
 			this._data.core.selected = [];
 			this._data.core.last_clicked = null;
 			this._data.core.focused = null;
-
+			
 			var c = this.get_container_ul()[0].className;
+
 			if(!skip_loading) {
+				alert('ripas');
 				this.element.html("<"+"ul class='"+c+"' role='group'><"+"li class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='treeitem' id='j"+this._id+"_loading'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
 				this.element.attr('aria-activedescendant','j'+this._id+'_loading');
 			}
+
 			this.load_node($.jstree.root, function (o, s) {
 				if(s) {
 					this.get_container_ul()[0].className = c;
 					if(this._firstChild(this.get_container_ul()[0])) {
 						this.element.attr('aria-activedescendant',this._firstChild(this.get_container_ul()[0]).id);
 					}
+
 					this.set_state($.extend(true, {}, this._data.core.state), function () {
 						/**
 						 * triggered when a `refresh` call completes
@@ -3476,8 +3515,10 @@
 					});
 				}
 				this._data.core.state = null;
+
 			});
 		},
+
 		/**
 		 * refreshes a node in the tree (reload its children) all opened nodes inside that node are reloaded with calls to `load_node`.
 		 * @name refresh_node(obj)
@@ -3661,7 +3702,8 @@
 			return options && options.flat ? flat : (obj.id === $.jstree.root ? tmp.children : tmp);
 		},
 		/**
-		 * create a new node (do not confuse with load_node)
+		 * 
+		  a new node (do not confuse with load_node)
 		 * @name create_node([par, node, pos, callback, is_loaded])
 		 * @param  {mixed}   par       the parent node (to create a root node use either "#" (string) or `null`)
 		 * @param  {mixed}   node      the data for the new node (a valid JSON object, or a simple string with the name)
@@ -6230,7 +6272,7 @@
 								e.preventDefault();
 								break;
 							default:
-								//console.log(e.which);
+								
 								break;
 						}
 					})
@@ -6462,7 +6504,7 @@
 						.find('.jstree-copy').first()[ is_copy ? 'show' : 'hide' ]();
 
 					// if are hovering the container itself add a new root node
-					//console.log(data.event);
+					
 					if( (data.event.target === ins.element[0] || data.event.target === ins.get_container_ul()[0]) && ins.get_container_ul().children().length === 0) {
 						ok = true;
 						for(t1 = 0, t2 = data.data.nodes.length; t1 < t2; t1++) {
@@ -7609,6 +7651,7 @@
 
 	$.jstree.plugins.types = function (options, parent) {
 		this.init = function (el, options) {
+			
 			var i, j;
 			if(options && options.types && options.types['default']) {
 				for(i in options.types) {
@@ -8167,3 +8210,4 @@
 	}
 
 }));
+
