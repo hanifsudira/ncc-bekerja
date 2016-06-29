@@ -74,12 +74,15 @@
             margin: 0;
         }
     </style>
+    <script type="text/javascript">
+    
+    </script>
     <script src="<?php echo base_url();?>assets/plugins/alertify/alertify.min.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/typeahead/typeahead.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <script src="<?php echo base_url();?>assets/plugins/jstree/dist/jstree.min.js"></script>
+    <script src="<?php echo base_url();?>assets/plugins/jstree/dist/jstree.js"></script>
   </head>
   <body class="sidebar-mini skin-red-light">
     <div class="wrapper">

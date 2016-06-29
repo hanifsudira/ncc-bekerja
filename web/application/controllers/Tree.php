@@ -33,7 +33,8 @@ class Tree extends MYCI_Controller{
         $jstree = array();
         foreach($query as $value){
             $temp = array();
-            if($value->parent_id==0){
+            if($value->id==$this->session->root){
+                echo 'lll';
                 $temp = array(
                     'id'        => $value->id,
                     'parent'    => '#',
@@ -49,6 +50,8 @@ class Tree extends MYCI_Controller{
             }
             $jstree[]=$temp;
         }
+ /*       echo '<pre>';
+        var_dump($jstree);*/
         $data['test'] = json_encode($jstree);
         $data['page'] = 'Tree View';
         $this->load->view('header',$data);
