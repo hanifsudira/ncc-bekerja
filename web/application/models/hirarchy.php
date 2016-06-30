@@ -7,7 +7,7 @@ Class Hirarchy extends CI_Model {
         $this->load->database('default','true');
     }
 
-    public function getitem($id){
+    public function getitem(){
         $query=$this->db->query("SELECT * FROM item");
         return $query->result();
     }
@@ -41,13 +41,13 @@ Class Hirarchy extends CI_Model {
     public function register($data){
         $email = $data['email'];
         $password = $data['password'];
-        $instansi = $data['instansi'];
-        $query = $this->db->query("INSERT INTO USER (email,PASSWORD,instansi,last_login) VALUES('$email',md5('$password'),'$instansi',now());");
+        $root = $data['root_item'];
+        $query = $this->db->query("INSERT INTO USER VALUES('$email',md5('$password'),'$root',now(),2);");
         return $query;
     }
 
     public function getuserdata($email){
-        $query = $this->db->query("select email,instansi,root_item,user_type from user where email='$email';");
+        $query = $this->db->query("select email,root_item,user_type from user where email='$email';");
         return $query->result();
     }
 
@@ -63,20 +63,21 @@ Class Hirarchy extends CI_Model {
     }
 
     public function insertnew($data){
-        $nama = $data['nama'];
-        $deskripsi = $data['deskripsi'];
-        $path = $data['path_gambar'];
-        $lat = $data['lat'];
-        $lon = $data['lon'];
-        $parent_id = $data['parent_id'];
-        $parent_name = $data['parent_name'];
-        $root_id = $this->session->root;
-        $query = $this->db->query("insert into item (nama,deskripsi,path_gambar,lat,lon,parent_id,parent_name,root_id) values('$nama','$deskripsi','$path',$lat,$lon,'$parent_id','$parent_name','$root_id');");
-        return $query;
+        $this->db->insert('item',$data);
+        return $this->db->insert_id();
     }
 
     public function hapus($id){
         $query = $this->db->query("CALL sp_hapusitem($id);");
         return $query->row()->balik;
+    }
+
+    public function changepassword($email,$old,$new){
+        $query = $this->db->query("CALL sp_changepwd('$email','$old','$new');");
+        return $query->row()->ret;
+    }
+
+    public function inserfile($data){
+        $this->db->insert('file',$data);
     }
 }

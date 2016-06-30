@@ -17,7 +17,8 @@
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label>Parent ID</label>
-                                        <input type="text" class="form-control" placeholder="<?php echo $query;?>" value="<?php echo $query;?>" name="pid" disabled required>
+                                        <input type="text" class="form-control" placeholder="<?php echo $query;?>" value="<?php echo $query;?>" disabled required>
+                                        <input type="hidden" class="form-control" placeholder="<?php echo $query;?>" value="<?php echo $query;?>" name="pid" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nama</label>
@@ -54,7 +55,7 @@
                                 <div class="box-body input_fields_wrap">
                                     <div class="form-group">
                                         <div class="col-xs-5">
-                                            <input type="file" class="form-control" name="inputfile[]" />
+                                            <input type="file" class="form-control" name="userfile[]" />
                                         </div>
                                         <div class="col-xs-4">
                                             <button class="btn btn-default addButton"><i class="fa fa-plus"></i></button>

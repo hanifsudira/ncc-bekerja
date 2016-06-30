@@ -45,7 +45,7 @@
             position:'bottom-right'
         },
         glossary:{
-            title:'AlertifyJS',
+            title:'Warning',
             ok: 'OK',
             cancel: 'Cancel',
             acccpt: 'Accept',

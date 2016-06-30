@@ -29,7 +29,7 @@ class Tree extends MYCI_Controller{
 
     public function hirarchy(){
         $this->load->model('hirarchy');
-        $query = $this->hirarchy->getitem($this->session->root);
+        $query = $this->hirarchy->getitem();
         $jstree = array();
         foreach($query as $value){
             $temp = array();
@@ -66,51 +66,50 @@ class Tree extends MYCI_Controller{
     }
 
     public function insertupload(){
-        $path = './assets/file/'.$this->session->email;
+        $path = realpath(APPPATH.'assets\\file\\'.$this->session->email);
         if(!is_dir($path)){
             mkdir($path,0777,TRUE);
         }
 
+        $this->load->model('hirarchy');
+        $data = array(
+            'nama'       => $this->input->post('nama'),
+            's_number'   => $this->input->post('sn'),
+            'deskripsi'  => $this->input->post('deskripsi'),
+            'lat'        => $this->input->post('latitude'),
+            'lon'        => $this->input->post('longitude'),
+            'parent_id'  => $this->input->post('pid')
+        );
+        $itemid = $this->hirarchy->insertnew($data);
+        $newitempath = $path.'\\'.$itemid.'\\';
+        if(!is_dir($newitempath)){
+            mkdir($newitempath,0777,TRUE);
+        }
+
         $config = array(
-            'upload_path'   => $path,
-            'allowed_types' => '',
+            'upload_path'   => $newitempath,
+            'allowed_types' => 'jpg|png|gif|pdf|doc|docx|xls|xlsx|txt',
             'max_size'      => '4096'
         );
 
-        $this->load->library('upload');
-
-        if(!$this->upload->do_upload()){
-            echo $this->upload->display_errors();
-        }
-
-        else{
-            $this->load->model('hirarchy');
-            $fileinfo = $this->upload->data();
-            $data = array(
-                'nama'       => $this->input->post('nama'),
-                'deskripsi'  => $this->input->post('deskripsi'),
-                'path_gambar'=> $this->session->email.'/'.$fileinfo['file_name'],
-                'lat'        => $this->input->post('latitude'),
-                'lon'        => $this->input->post('longitude')
+        $this->load->library('upload',$config);
+        $files = $_FILES;
+        print_r($files);
+        $this->upload->data();
+        foreach($files as $file){
+            $_FILES['userfile']['name']    = $file['name'][0];
+            $_FILES['userfile']['tmp_name']= $file['tmp_name'][0];
+            $filein = array(
+                'path_file' => 'assets\\file\\'.$this->session->email.'\\'.$_FILES['userfile']['name'],
+                'id_item'   => $itemid
             );
-
-            if(!$this->session->root){
-                $data['user_own'] = $this->session->email;
-                $query = $this->hirarchy->defineroot($data);
-                if($query){
-                    $this->session->set_userdata('root', $query);
-                    redirect('/tree/dashboard');
-                }
-            }
-            else{
-                $parent = $this->input->post('parent[]');
-                $parent = explode("|",$parent);
-                $data['parent_id'] = $parent[0];
-                $data['parent_name'] = $parent[1];
-                $query = $this->hirarchy->insertnew($data);
-                if($query) redirect('/tree/insertnew/'.base64_encode('success'));
-            }
+            print_r($file);
+            $this->hirarchy->inserfile($filein);
+            /*$this->upload->initialize($config);*/
+            //$this->upload->do_upload('userfile[]');
+            move_uploaded_file($_FILES['userfile']['tmp_name'], $newitempath.$_FILES['userfile']['name']);
         }
+        //redirect('tree/hirarchy');
     }
 
     public function hapus($inid){
@@ -140,12 +139,27 @@ class Tree extends MYCI_Controller{
         $this->load->view('footer');
     }
 
-    public function adduser(){
+    public function adduser($in=null){
         $this->load->model('hirarchy');
-        $data['query'] =
+        $data['error'] = base64_decode($in);
+        $data['page'] = 'Add User';
+        $data['query'] = $this->hirarchy->getitem();;
         $this->load->view('header',$data);
-        $this->load->view('lihat');
+        $this->load->view('register');
         $this->load->view('footer');
+    }
+
+    public function changepassword(){
+        $this->load->model('hirarchy');
+        $email = $this->input->post('email');
+        $old = $this->input->post('old');
+        $new = $this->input->post('new');
+        echo $email,$old,$new;
+        $query = $this->hirarchy->changepassword($email,$old,$new);
+        if($query)
+            redirect('/tree/hirarchy');
+        else
+            die('gagal');
     }
 
     public function adduserpros(){

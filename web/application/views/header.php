@@ -77,12 +77,12 @@
     <script type="text/javascript">
     
     </script>
-    <script src="<?php echo base_url();?>assets/plugins/alertify/alertify.min.js"></script>
+    <script src="<?php echo base_url();?>assets/plugins/alertify/alertify.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/typeahead/typeahead.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/datepicker/bootstrap-datepicker.js"></script>
-    <script src="<?php echo base_url();?>assets/plugins/jstree/dist/jstree.js"></script>
+    <script src="<?php echo base_url();?>assets/plugins/jstree/dist/js-tree.js"></script>
   </head>
   <body class="sidebar-mini skin-red-light">
     <div class="wrapper">
@@ -110,7 +110,7 @@
                   </li>
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Ganti Password</a>
+                      <a data-toggle="modal" data-target="#gantipwd" class="btn btn-default btn-flat">Ganti Password</a>
                     </div>
                     <div class="pull-right">
                       <a href="<?php echo base_url();?>auth/logout" class="btn btn-default btn-flat">Keluar</a>
@@ -135,10 +135,45 @@
         </section>
       </aside>
       <div class="content-wrapper">
-        <section class="content-header">
-          <h1></h1>Dashboard</h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active"><?php echo $page;?></li>
-          </ol>
-        </section>
+    <section class="content-header">
+      <h1></h1>Dashboard</h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active"><?php echo $page;?></li>
+      </ol>
+    </section>
+<div class="modal fade" id="gantipwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+                  <span class="sr-only">Close</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">Ganti Password</h4>
+          </div>
+          <form action="<?php echo base_url()?>tree/changepassword" method="post" class="form-horizontal" role="form">
+              <div class="modal-body">
+                  <input type="hidden" name="email" value="<?php echo $this->session->email?>">
+                  <div class="form-group">
+                      <label  class="col-sm-2 control-label" for="inputEmail3">Old Password</label>
+                      <div class="col-sm-10">
+                          <input type="password" class="form-control" id="inputEmail3" name="old" placeholder="old password"/>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-sm-2 control-label" for="inputPassword3">New Password</label>
+                      <div class="col-sm-10">
+                          <input type="password" class="form-control" id="inputPassword3" name="new" placeholder="new password"/>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

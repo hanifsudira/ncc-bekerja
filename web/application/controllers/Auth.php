@@ -20,16 +20,16 @@ class Auth extends CI_Controller {
     public function registerprocess(){
         $this->load->model('hirarchy');
         $data = array(
+            'root_item'  => $this->input->post('id'),
             'email'     => $this->input->post('email'),
             'password'  => $this->input->post('password'),
-            'instansi'  => $this->input->post('instansi')
         );
         $query = $this->hirarchy->register($data);
         if($query){
-            redirect('/'.base64_encode('success'));
+            redirect('tree/adduser/'.base64_encode('ok'));
         }
         else{
-            redirect('auth/register/'.base64_encode('error'));
+            redirect('tree/adduser/'.base64_encode('error'));
         }
     }
 
@@ -42,7 +42,6 @@ class Auth extends CI_Controller {
             $result = $result[0];
             $userdata = array(
                 'email'     => $result->email,
-                'instansi'  => $result->instansi,
                 'root'      => $result->root_item,
                 'login'     => 1,
                 'user_type' => $result->user_type

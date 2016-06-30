@@ -2945,10 +2945,13 @@
 		hide_all : function (skip_redraw) {
 			var i, m = this._model.data, ids = [];
 			for(i in m) {
-				if(m.hasOwnProperty(i) && i !== $.jstree.root && !m[i].state.hidden) {
-					m[i].state.hidden = true;
-					ids.push(i);
+				if(m[i].state != undefined){
+					if(m.hasOwnProperty(i) && i !== $.jstree.root && !m[i].state.hidden) {
+						m[i].state.hidden = true;
+						ids.push(i);
+					}
 				}
+
 			}
 			this._model.force_full_redraw = true;
 			if(!skip_redraw) {
