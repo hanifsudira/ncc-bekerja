@@ -30,12 +30,15 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                </i>Gambar
+                </i>File Pendukung
             </h2>
         </div>
     </div>
     <div  class="row invoice-info">
-        <img src="<?php echo base_url()?>assets/img/<?php echo $query->path_gambar?>" alt="Mountain View" style="width:auto;">
+        <?php foreach($file as $fi){?>
+            <?php $path = APPPATH.$fi->path_file;?>
+            <a href="<?php echo $path?>" download><?php echo explode('\\',$fi->path_file)[3]?></a><br>
+        <?php }?>
     </div>
 </section>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAoc-YJOyHqg7eAQCJnIDPRfNZLvSwRfo0"></script>

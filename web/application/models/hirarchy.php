@@ -80,4 +80,9 @@ Class Hirarchy extends CI_Model {
     public function inserfile($data){
         $this->db->insert('file',$data);
     }
+
+    public function getfile($id){
+        $query = $this->db->query("SELECT * FROM FILE WHERE id_item=$id;");
+        return $query->result();
+    }
 }

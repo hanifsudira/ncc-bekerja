@@ -37,7 +37,7 @@
                 window.location = url;
               }
             },
-            "Edit": {
+            /*"Edit": {
               "label": "Edit Item",
               "action": function (obj) {
                 var id = obj.reference.prevObject.selector;
@@ -45,7 +45,7 @@
                 var url = "<?php echo base_url()?>"+"tree/edit/"+id;
                 window.location = url;
               }
-            },
+            },*/
             "View": {
               "label": "View Item",
               "action": function (obj) {

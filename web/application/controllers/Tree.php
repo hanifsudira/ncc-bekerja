@@ -94,7 +94,7 @@ class Tree extends MYCI_Controller{
 
         $this->load->library('upload',$config);
         $files = $_FILES;
-        print_r($files);
+        //print_r($files);
         $this->upload->data();
         foreach($files as $file){
             $_FILES['userfile']['name']    = $file['name'][0];
@@ -103,13 +103,13 @@ class Tree extends MYCI_Controller{
                 'path_file' => 'assets\\file\\'.$this->session->email.'\\'.$_FILES['userfile']['name'],
                 'id_item'   => $itemid
             );
-            print_r($file);
+            //print_r($file);
             $this->hirarchy->inserfile($filein);
             /*$this->upload->initialize($config);*/
             //$this->upload->do_upload('userfile[]');
             move_uploaded_file($_FILES['userfile']['tmp_name'], $newitempath.$_FILES['userfile']['name']);
         }
-        //redirect('tree/hirarchy');
+        redirect('tree/hirarchy');
     }
 
     public function hapus($inid){
@@ -133,6 +133,7 @@ class Tree extends MYCI_Controller{
         $this->load->model('hirarchy');
         $id = $inid;
         $data['query'] = $this->hirarchy->getoneitem($id)[0];
+        $data['file'] = $this->hirarchy->getfile($id);
         $data['page'] = 'Lihat Item';
         $this->load->view('header',$data);
         $this->load->view('lihat');
@@ -160,9 +161,5 @@ class Tree extends MYCI_Controller{
             redirect('/tree/hirarchy');
         else
             die('gagal');
-    }
-
-    public function adduserpros(){
-
     }
 }
