@@ -66,7 +66,8 @@ class Tree extends MYCI_Controller{
     }
 
     public function insertupload(){
-        $path = realpath(APPPATH.'assets\\file\\'.$this->session->email);
+        $path = ('.\\assets\\file\\'.$this->session->email);
+        
         if(!is_dir($path)){
             mkdir($path,0777,TRUE);
         }
@@ -82,6 +83,7 @@ class Tree extends MYCI_Controller{
         );
         $itemid = $this->hirarchy->insertnew($data);
         $newitempath = $path.'\\'.$itemid.'\\';
+
         if(!is_dir($newitempath)){
             mkdir($newitempath,0777,TRUE);
         }
@@ -100,10 +102,10 @@ class Tree extends MYCI_Controller{
             $_FILES['userfile']['name']    = $file['name'][0];
             $_FILES['userfile']['tmp_name']= $file['tmp_name'][0];
             $filein = array(
-                'path_file' => 'assets\\file\\'.$this->session->email.'\\'.$_FILES['userfile']['name'],
+                'path_file' => 'assets\\file\\'.$this->session->email.'\\'.$itemid.'\\'.$_FILES['userfile']['name'],
                 'id_item'   => $itemid
             );
-            //print_r($file);
+            echo $newitempath;
             $this->hirarchy->inserfile($filein);
             /*$this->upload->initialize($config);*/
             //$this->upload->do_upload('userfile[]');

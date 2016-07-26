@@ -69,7 +69,7 @@ Class Hirarchy extends CI_Model {
 
     public function hapus($id){
         $query = $this->db->query("CALL sp_hapusitem($id);");
-        return $query->row()->balik;
+       return $query->row()->balik;
     }
 
     public function changepassword($email,$old,$new){

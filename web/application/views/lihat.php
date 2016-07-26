@@ -35,9 +35,15 @@
         </div>
     </div>
     <div  class="row invoice-info">
-        <?php foreach($file as $fi){?>
-            <?php $path = APPPATH.$fi->path_file;?>
-            <a href="<?php echo $path?>" download><?php echo explode('\\',$fi->path_file)[3]?></a><br>
+        <?php foreach($file as $fi){
+            
+            ?>
+            <?php $path = base_url().'/'.$fi->path_file;
+            if (sizeof(explode('\\',$fi->path_file))<3) {
+                continue;
+            }
+            ?>
+            <a href="<?php echo $path?>" download><?php echo explode('\\',$fi->path_file)[4]?></a><br>
         <?php }?>
     </div>
 </section>
