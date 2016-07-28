@@ -8,7 +8,8 @@ Class Hirarchy extends CI_Model {
     }
 
     public function getitem(){
-        $query=$this->db->query("SELECT * FROM item");
+        $query=$this->db->query("SELECT * FROM item, type where item.id_type=type.id_type or ISNULL(item.id_type)");
+        // var_dump($query->result_array());
         return $query->result();
     }
 

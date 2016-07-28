@@ -5,6 +5,7 @@ class Tree extends MYCI_Controller{
     public function __construct(){
         parent::__construct();
         $this->load->database();
+        $this->load->model('typemodel');
     }
 
     public function dashboard(){
@@ -21,6 +22,7 @@ class Tree extends MYCI_Controller{
     public function insertnew($id){
         $this->load->model('hirarchy');
         $data['query'] = $id;
+        $data['type'] = $this->typemodel->get();
         $data['page'] = 'Insert New';
         $this->load->view('header',$data);
         $this->load->view('insertnew');
@@ -37,19 +39,19 @@ class Tree extends MYCI_Controller{
                 $temp = array(
                     'id'        => $value->id,
                     'parent'    => '#',
-                    'text'      => $value->nama
+                    'text'      => $value->nama." (".$value->nama_type.")",
                 );
             }
             else{
                 $temp = array(
                     'id'        => $value->id,
                     'parent'    => $value->parent_id,
-                    'text'      => $value->nama
+                    'text'      => $value->nama." (".$value->nama_type.")",
                 );
             }
             $jstree[]=$temp;
         }
-        $data['test'] = json_encode($jstree);
+        $data['test'] = json_encode($jstree);   
         $data['page'] = 'Tree View';
         $this->load->view('header',$data);
         $this->load->view('hirarchy');
@@ -79,7 +81,8 @@ class Tree extends MYCI_Controller{
             'deskripsi'  => $this->input->post('deskripsi'),
             'lat'        => $this->input->post('latitude'),
             'lon'        => $this->input->post('longitude'),
-            'parent_id'  => $this->input->post('pid')
+            'parent_id'  => $this->input->post('pid'),
+            'id_type' => $this->input->post('id_type'),
         );
         $itemid = $this->hirarchy->insertnew($data);
         $newitempath = $path.'\\'.$itemid.'\\';

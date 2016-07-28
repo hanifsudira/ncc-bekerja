@@ -6,6 +6,7 @@
     <title>Dashboard</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
@@ -131,6 +132,7 @@
               <?php if($this->session->user_type == 1){?>
                 <li><a href="<?php echo base_url();?>tree/adduser"><i class="fa fa-circle-o"></i>Add New User</a></li>
               <?php }?>
+               <li><a href="<?php echo base_url();?>type"><i class="fa fa-circle-o"></i>Type</a></li>
           </ul>
         </section>
       </aside>

@@ -8,6 +8,7 @@
     </script>
 
     <script src="<?php echo base_url();?>assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?php echo base_url()?>assets/bootstrap/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/morris/morris.min.js"></script>
     <script src="<?php echo base_url();?>assets/plugins/select2/select2.full.min.js"></script>

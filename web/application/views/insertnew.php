@@ -25,6 +25,17 @@
                                         <input type="text" class="form-control" placeholder="Nama" name="nama" required>
                                     </div>
                                     <div class="form-group">
+                                        <label>Tipe</label>
+                                        <select class="selectpicker form-control" data-live-search="true" name="id_type">
+                                        <?php
+                                        foreach ($type as $row) { ?>
+                                          <option value="<?php echo $row->id_type?>"><?php echo $row->nama_type?></option>
+                                            
+                                        <?php } ?>
+                                        </select>   
+                                    </div>
+                                    
+                                    <div class="form-group">
                                         <label>Serial Number</label>
                                         <input type="text" class="form-control" placeholder="Serial Number" name="sn" required>
                                     </div>
