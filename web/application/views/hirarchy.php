@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAoc-YJOyHqg7eAQCJnIDPRfNZLvSwRfo0"></script>
 <section class="content">
   <div class="row">
     <div class="col-xs-12">
@@ -6,7 +7,19 @@
           <input class="search-input form-control"></input>
       </div>
       <br>
-      <div id="jstree"></div>
+      <div class="row col-xs-12">
+      <div class="col-xs-5" id="jstree"></div>
+      <div class="col-xs-7" style="" id="detail">
+        <div class="loader" style="display:none">Loading...</div>
+        <center>
+          <h4>Detail</h4>
+        </center>
+        <div class="col-xs-12" id="detailText">
+          <?php include('lihat.php');?>
+        </div>
+      </div>
+        
+      </div>
     <div class="col-md-12">
   </div>
 </section>
@@ -46,15 +59,15 @@
                 window.location = url;
               }
             },*/
-            "View": {
-              "label": "View Item",
-              "action": function (obj) {
-                var id = obj.reference.prevObject.selector;
-                id = id.replace('#','');
-                var url = "<?php echo base_url()?>"+"tree/lihat/"+id;
-                window.location = url;
-              }
-            },
+            // "View": {
+            //   "label": "View Item",
+            //   "action": function (obj) {
+            //     var id = obj.reference.prevObject.selector;
+            //     id = id.replace('#','');
+            //     var url = "<?php echo base_url()?>"+"tree/lihat/"+id;
+            //     window.location = url;
+            //   }
+            // },
             "Delete": {
               "label": "Delete Item",
               "action": function (obj) {
@@ -76,4 +89,28 @@
       }
     });
   });
+
+$("#jstree").on('click',"li",function(){
+  var id=this.id;
+  var url="<?php echo base_url()?>tree/lihat/"+id;
+  console.log($(this).attr('aria-selected'))  ;
+  // console.log(url);
+  
+  if ($(this).attr('aria-selected')=='false') {
+    return false;
+  };
+  $(".loader").show();
+   $.ajax({
+        url: url,
+        type: "get",
+        success: function (response) {
+          // $("#detail").empty();
+          $(".loader").hide();
+          $("#detailText").html(response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+           console.log(textStatus, errorThrown);
+        }
+    });
+});
 </script>

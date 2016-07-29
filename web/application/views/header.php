@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/datepicker/datepicker3.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/jstree/dist/themes/default/style.min.css">
     <link rel="stylesheet" href="<?php echo base_url();?>assets/plugins/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/bootstrap/css/custom.css">
     <style>
         textarea {
             resize: vertical; /* user can resize vertically, but width is fixed */

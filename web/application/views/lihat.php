@@ -47,12 +47,12 @@
         <?php }?>
     </div>
 </section>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAoc-YJOyHqg7eAQCJnIDPRfNZLvSwRfo0"></script>
+
 <script type="text/javascript">
-    $( document ).ready(function() {
+
         var lat=parseFloat(<?php echo $query->lat?>);
         var long=parseFloat(<?php echo $query->lon?>);
-        window.onload = function () {
+
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
             }
@@ -63,7 +63,7 @@
                 console.log(long);
                 out_map();
             }
-        }
+    
         function out_map(){
             var coords = new google.maps.LatLng(lat, long);
             var options = {
@@ -82,5 +82,4 @@
                 title:"You are here!"
             });
         }
-    });
 </script>

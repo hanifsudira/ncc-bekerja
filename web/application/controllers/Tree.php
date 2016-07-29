@@ -13,7 +13,13 @@ class Tree extends MYCI_Controller{
         $id = $this->session->root;
         $email = $this->session->email;
         $data = array('last_login' => $this->hirarchy->getlastlogin($email),'all_item' => $this->hirarchy->countallitem($id));
+
+        $id = $data[0]->id;
+        $data['query'] = $this->hirarchy->getoneitem($id)[0];
+        $data['file'] = $this->hirarchy->getfile($id);
+
         $data['page'] = 'Dashboard';
+
         $this->load->view('header',$data);
         $this->load->view('dashboard');
         $this->load->view('footer');
@@ -32,10 +38,13 @@ class Tree extends MYCI_Controller{
     public function hirarchy(){
         $this->load->model('hirarchy');
         $query = $this->hirarchy->getitem();
+
         $jstree = array();
         foreach($query as $value){
             $temp = array();
             if($value->id==$this->session->root){
+                $data['query'] = $this->hirarchy->getoneitem($value->id)[0];
+                $data['file'] = $this->hirarchy->getfile($value->id);
                 $temp = array(
                     'id'        => $value->id,
                     'parent'    => '#',
@@ -51,6 +60,9 @@ class Tree extends MYCI_Controller{
             }
             $jstree[]=$temp;
         }
+        
+
+        $data['page'] = 'Dashboard';
         $data['test'] = json_encode($jstree);   
         $data['page'] = 'Tree View';
         $this->load->view('header',$data);
@@ -140,9 +152,9 @@ class Tree extends MYCI_Controller{
         $data['query'] = $this->hirarchy->getoneitem($id)[0];
         $data['file'] = $this->hirarchy->getfile($id);
         $data['page'] = 'Lihat Item';
-        $this->load->view('header',$data);
-        $this->load->view('lihat');
-        $this->load->view('footer');
+        // $this->load->view('header',$data);
+        $this->load->view('lihat',$data);
+        // $this->load->view('footer');
     }
 
     public function adduser($in=null){
