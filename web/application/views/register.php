@@ -17,8 +17,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="text" class="form-control" placeholder="Email" name="email" required>
+                                <label>Username</label>
+                                <input type="text" class="form-control" placeholder="Username" name="email" required>
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
@@ -40,9 +40,9 @@
 </section>
 <script type="text/javascript">
 <?php if($error=="error"){?>
-        alertify.error('Email Sudah Terdaftar');
+        alertify.error('Username Sudah Terdaftar');
 <?php }elseif($error=="ok") {?>
-        alertify.success('Berhasil Menambhkan User');
+        alertify.success('Berhasil Menambahkanhkan User');
 <?php }?>
 </script>
 

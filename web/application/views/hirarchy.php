@@ -8,17 +8,19 @@
       </div>
       <br>
       <div class="row col-xs-12">
-      <div class="col-xs-5" id="jstree"></div>
-      <div class="col-xs-7" style="" id="detail">
-        <div class="loader" style="display:none">Loading...</div>
-        <center>
-          <h4>Detail</h4>
-        </center>
-        <div class="col-xs-12" id="detailText">
-          <?php include('lihat.php');?>
-        </div>
-      </div>
-        
+		<div class="col-xs-7">
+			<center>
+			  <h4>Hirarchy Item</h4>
+			</center>
+			<div id="jstree"></div>
+		</div>
+		  <div class="col-xs-5" style="" id="detail">
+			<center>
+			  <h4>Detail Item</h4>
+			</center>
+			<div class="loader" style="display:none">Loading...</div>
+			<div class="col-xs-12" id="detailText"></div>
+		  </div>
       </div>
     <div class="col-md-12">
   </div>
@@ -31,10 +33,28 @@
     });
     $('#jstree').jstree({
       'core': {
-        'data': <?php echo $test;?>
+		'data' : {
+			'dataType': 'json',
+			'type' : 'get',
+			'url' : function(node){
+				if(node.id === "#") {
+					return "<?php echo base_url()?>"+"tree/getparentitem";
+				}
+				else{					
+					return "<?php echo base_url()?>"+"tree/getitembyid";
+				}
+			},	
+			'success' : function(data){
+				return data;
+			},
+			'data' : function (node) {
+				return { 'id' : node.id };
+			}
+		}
       },
-      "plugins": ["search","wholerow","contextmenu","dnd"],
-      "search": {
+      'plugins': ["search","json_data","wholerow","contextmenu","dnd","state","cookies"],
+	  'cookies' : { cookie_options : { path : '/' } },
+      'search': {
         "case_insensitive": true,
         "show_only_matches" : true
       },
@@ -50,7 +70,7 @@
                 window.location = url;
               }
             },
-            /*"Edit": {
+            "Edit": {
               "label": "Edit Item",
               "action": function (obj) {
                 var id = obj.reference.prevObject.selector;
@@ -58,30 +78,55 @@
                 var url = "<?php echo base_url()?>"+"tree/edit/"+id;
                 window.location = url;
               }
-            },*/
-            // "View": {
-            //   "label": "View Item",
-            //   "action": function (obj) {
-            //     var id = obj.reference.prevObject.selector;
-            //     id = id.replace('#','');
-            //     var url = "<?php echo base_url()?>"+"tree/lihat/"+id;
-            //     window.location = url;
-            //   }
-            // },
+            },
             "Delete": {
               "label": "Delete Item",
+              "separator_after"   : true,
+			  "action": function (obj) {
+                var id = obj.reference.prevObject.selector;
+                id = id.replace('#','');
+                if(id==1){
+					alertify.alert("Root Item Tidak Dapat Dihapus!!");
+				}
+				else{
+					alertify.confirm("Hapus Item?",
+                    function(){
+						  var url = "<?php echo base_url()?>"+"tree/hapus/"+id;
+						  window.location = url;
+						},
+						function(){
+						  alertify.error('Cancel');
+					});
+				}
+              }
+            },
+			"Uplevel": {
+              "label": "Up One Level",
               "action": function (obj) {
                 var id = obj.reference.prevObject.selector;
                 id = id.replace('#','');
-                console.log(obj);
-                alertify.confirm("Hapus Item?",
-                    function(){
-                      var url = "<?php echo base_url()?>"+"tree/hapus/"+id;
-                      window.location = url;
-                    },
-                    function(){
-                      alertify.error('Cancel');
-                });
+				alertify.confirm("Yakin Menaikan Level Item?",
+				function(){
+					  var url = "<?php echo base_url()?>"+"tree/uplevel/"+id;
+					  window.location = url;
+					},
+					function(){
+					  alertify.error('Cancel');
+				});
+              }
+            },
+			"MoveUp": {
+              "label": "Move Up",
+              "action": function (obj) {
+                var id = obj.reference.prevObject.selector;
+                id = id.replace('#','');
+              }
+            },
+			"MoveDown": {
+              "label": "Move Down",
+              "action": function (obj) {
+                var id = obj.reference.prevObject.selector;
+                id = id.replace('#','');
               }
             }
           };
@@ -94,7 +139,6 @@ $("#jstree").on('click',"li",function(){
   var id=this.id;
   var url="<?php echo base_url()?>tree/lihat/"+id;
   console.log($(this).attr('aria-selected'))  ;
-  // console.log(url);
   
   if ($(this).attr('aria-selected')=='false') {
     return false;
@@ -104,7 +148,6 @@ $("#jstree").on('click',"li",function(){
         url: url,
         type: "get",
         success: function (response) {
-          // $("#detail").empty();
           $(".loader").hide();
           $("#detailText").html(response);
         },

@@ -1,3 +1,5 @@
+<?php
+?>
 <section class="invoice">
     <div class="row">
         <div class="col-xs-12">
@@ -8,11 +10,12 @@
         </div>
     </div>
     <div class="row invoice-info">
-        <div class="col-sm-4 invoice-col">
+        <div class="col-sm-12 invoice-col">
             <address>
-                Deskripsi       : <?php echo $query->deskripsi?><br>
-                Latitude        : <?php echo $query->lat?><br>
-                Longitude       : <?php echo $query->lon?><br>
+                <span><b>Deskripsi</b>       : <?php echo $query->deskripsi?></span><br>
+                <span><b>Latitude</b>        : <?php echo $query->lat?></span><br>
+                <span><b>Longitude</b>        : <?php echo $query->lon?></span><br>
+				<span><b>Tahun Pengadaan</b> : <?php echo $query->t_pengadaan?></span>
             </address>
         </div>
     </div>
@@ -35,16 +38,17 @@
         </div>
     </div>
     <div  class="row invoice-info">
-        <?php foreach($file as $fi){
-            
-            ?>
-            <?php $path = base_url().'/'.$fi->path_file;
-            if (sizeof(explode('\\',$fi->path_file))<3) {
-                continue;
-            }
-            ?>
-            <a href="<?php echo $path?>" download><?php echo explode('\\',$fi->path_file)[4]?></a><br>
-        <?php }?>
+        <?php if (is_array($file) || is_object($file)){?>
+			<?php foreach($file as $fi){
+				?>
+				<?php $path = base_url().$fi->path_file;
+				if (sizeof(explode('/',$fi->path_file))<3) {
+					continue;
+				}
+				?>
+				<a href="<?php echo $path?>" download><?php echo explode('/',$fi->path_file)[4]." - ".explode('/',$fi->path_file)[5]?></a><br>
+			<?php }?>
+		<?php }?>
     </div>
 </section>
 

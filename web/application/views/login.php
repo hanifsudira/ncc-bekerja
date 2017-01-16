@@ -20,7 +20,7 @@
         <p class="login-box-msg">Sign in to start your session</p>
         <form action="<?php echo base_url();?>auth/login" method="post">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" placeholder="E-Mail" name="email" required>
+                <input type="text" class="form-control" placeholder="Username" name="email" required>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
@@ -40,7 +40,6 @@
                 </div><!-- /.col -->
             </div>
         </form>
-        <a href="<?php echo base_url();?>auth/register" class="text-center">Register a new membership</a>
     </div>
 </div>
 <script src="<?php echo base_url();?>assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>

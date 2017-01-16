@@ -8,6 +8,7 @@ class Auth extends CI_Controller {
     }
 
     public function index($msg=null){
+		
         $data['error'] = (base64_decode($msg)=="success" ? true : null);
         $this->load->view('login',$data);
     }
@@ -20,17 +21,17 @@ class Auth extends CI_Controller {
     public function registerprocess(){
         $this->load->model('hirarchy');
         $data = array(
-            'root_item'  => $this->input->post('id'),
-            'email'     => $this->input->post('email'),
-            'password'  => $this->input->post('password'),
+            'root_item'  	=> $this->input->post('id'),
+            'email'     	=> $this->input->post('email'),
+            'password'  	=> md5($this->input->post('password')),
+			'last_login'	=> date('Y-m-d H:i:s'),
+			'user_type'		=> 2
         );
-        $query = $this->hirarchy->register($data);
-        if($query){
+        $query = $this->hirarchy->register($data);	
+		if($query)
             redirect('tree/adduser/'.base64_encode('ok'));
-        }
-        else{
+        else
             redirect('tree/adduser/'.base64_encode('error'));
-        }
     }
 
     public function login(){
@@ -47,7 +48,6 @@ class Auth extends CI_Controller {
                 'user_type' => $result->user_type
             );
             $this->session->set_userdata($userdata);
-            //var_dump($userdata);
             redirect('tree/hirarchy');
         }
         else{

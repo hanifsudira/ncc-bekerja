@@ -6,16 +6,39 @@ Class Hirarchy extends CI_Model {
         parent::__construct();
         $this->load->database('default','true');
     }
+	
+	public function checkchild($id){
+		$query=$this->db->query("SELECT COUNT(*) as a FROM item WHERE parent_id = $id");
+		if($query)
+			return $query->row()->a;
+	}
+	
+	public function getitembyid($id){
+		$temp = "select * from item, type where item.parent_id=$id and item.id_type=type.id_type or isnull(item.id_type)";
+		$query=$this->db->query($temp);
+        if($query)
+			return $query->result();
+	}
 
     public function getitem(){
-        $query=$this->db->query("SELECT * FROM item, type where item.id_type=type.id_type or ISNULL(item.id_type)");
-        // var_dump($query->result_array());
-        return $query->result();
+        //$query=$this->db->query("SELECT * FROM item, type where item.id_type=type.id_type or ISNULL(item.id_type)");
+        $id = $this->session->root;
+		$temp = "select * from item, type where item.id=$id and item.id_type=type.id_type or isnull(item.id_type)";
+		$query=$this->db->query($temp);
+		if($query)
+			return $query->result();
     }
+	
+	public function getallitem(){
+		$query=$this->db->query("SELECT id, nama FROM item");
+		if($query)
+			return $query->result();
+	}
 
     public function getoneitem($id){
         $query = $this->db->query("SELECT * FROM item WHERE id='$id'");
-        return $query->result();
+        if($query)
+			return $query->result();
     }
 
     public function countallitem($root){
@@ -40,11 +63,12 @@ Class Hirarchy extends CI_Model {
     }
 
     public function register($data){
-        $email = $data['email'];
-        $password = $data['password'];
-        $root = $data['root_item'];
-        $query = $this->db->query("INSERT INTO USER VALUES('$email',md5('$password'),'$root',now(),2);");
-        return $query;
+        #$email = $data['email'];
+        #$password = $data['password'];
+        #$root = $data['root_item'];
+        #$query = $this->db->query("INSERT INTO USER VALUES('$email',md5('$password'),'$root',now(),2);");
+        $query  = $this->db->insert('user',$data);
+		return $query;
     }
 
     public function getuserdata($email){
@@ -67,11 +91,24 @@ Class Hirarchy extends CI_Model {
         $this->db->insert('item',$data);
         return $this->db->insert_id();
     }
+	
+	public function insertupdate($id,$data){
+		$this->db->trans_start();
+		$this->db->where('id', $id);
+		$this->db->update('item', $data);
+		$this->db->trans_complete();
+		return ($this->db->trans_status() === FALSE) ? 0 : 1;
+	}
 
     public function hapus($id){
         $query = $this->db->query("CALL sp_hapusitem($id);");
-       return $query->row()->balik;
+        return $query->row()->balik;
     }
+	
+	public function uplevel($id){
+		$query = $this->db->query("CALL sp_uplevel($id)");
+		return $query;
+	}
 
     public function changepassword($email,$old,$new){
         $query = $this->db->query("CALL sp_changepwd('$email','$old','$new');");
@@ -83,7 +120,8 @@ Class Hirarchy extends CI_Model {
     }
 
     public function getfile($id){
-        $query = $this->db->query("SELECT * FROM FILE WHERE id_item=$id;");
-        return $query->result();
+        $query = $this->db->query("select * from file where id_item=$id");
+		if($query)
+			return $query->result();
     }
 }

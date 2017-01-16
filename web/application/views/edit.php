@@ -3,38 +3,80 @@
         <div class="col-xs-12">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Edit New</h3>
+                    <h3 class="box-title">Insert New</h3>
                 </div>
-                <form action="<?php echo base_url()?>tree/insertupload" enctype="multipart/form-data" method="post" role="form">
-                    <div class="box-body">
-                        <div class="form-group">
-                            <label>Nama</label>
-                            <input type="text" class="form-control" placeholder="<?php echo $query->nama;?>" name="nama" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Deskripsi</label>
-                            <textarea class="form-control" placeholder="<?php echo $query->deskripsi;?>" name="deskripsi" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Latitude</label>
-                            <input type="text" class="form-control" id="lat" name="latitude" >
-                        </div>
-                        <div class="form-group">
-                            <label>longitude</label>
-                            <input type="text" class="form-control" id="lon" name="longitude" >
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Location</label>
-                            <div id="dvMap" class="form-control" style="auto; height: 400px">
+                <form action="<?php echo base_url()?>tree/editupload" enctype="multipart/form-data" method="post" role="form">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#data" data-toggle="tab">Item</a></li>
+                            <li><a href="#location" data-toggle="tab">Lokasi</a></li>
+                            <li><a href="#file" data-toggle="tab">File Pendukung</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="data">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Nama</label>
+										<input type="hidden" value="<?php echo $query->id?>" name="id">
+                                        <input type="text" class="form-control" placeholder="<?php echo $query->nama?>" value="<?php echo $query->nama?>" name="nama" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tipe</label>
+                                        <select class="form-control" data-live-search="true" name="id_type">
+                                        <?php
+                                        foreach ($type as $row) { ?>
+                                          <option value="<?php echo $row->id_type?>"><?php echo $row->nama_type?></option>
+                                            
+                                        <?php } ?>
+                                        </select>   
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tahun Pengadaan</label>
+                                        <input type="text" class="form-control" placeholder="<?php echo $query->t_pengadaan?>" value="<?php echo $query->t_pengadaan?>" id="tpengadaan" name="tpengadaan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Serial Number</label>
+                                        <input type="text" class="form-control" placeholder="<?php echo $query->s_number?>" value="<?php echo $query->s_number?>" name="sn" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Deskripsi</label>
+                                        <textarea class="form-control" placeholder="<?php echo $query->deskripsi?>" value="<?php echo $query->deskripsi?>" name="deskripsi" required></textarea>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputFile">Input Gambar</label>
-                            <input type="file" name="path_gambar" required>
+                            <div class="tab-pane" id="location">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Latitude</label>
+                                        <input type="text" class="form-control" id="lat" name="latitude" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label>longitude</label>
+                                        <input type="text" class="form-control" id="lon" name="longitude" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Location</label>
+                                        <div id="dvMap" class="form-control" style="auto; height: 400px">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="file">
+                                <div class="box-body input_fields_wrap">
+                                    <div class="form-group">
+                                        <div class="col-xs-5">
+                                            <input type="file" class="form-control" name="userfile[]" />
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <button class="btn btn-default addButton"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
                     </div>
                 </form>
             </div>
@@ -52,9 +94,9 @@
             }
             function showPosition(position) {
                 lat=position.coords.latitude;
-                console.log(lat);
+                //console.log(lat);
                 long=position.coords.longitude;
-                console.log(long);
+                //console.log(long);
                 out_map();
             }
         }
@@ -75,11 +117,50 @@
                 map: map,
                 title:"You are here!"
             });
+
+            google.maps.event.trigger(map, 'resize');
+
             if(coords){
                 document.getElementById("lat").value = lat;
                 document.getElementById("lon").value = long;
             }
+
+
+            $('a[href="#location"]').on('shown', function(e) {
+                google.maps.event.trigger(map, 'resize');
+            });
         }
+
+        var max_fields = 5;
+        var wrapper = (".input_fields_wrap");
+        var add = (".addButton");
+        var x = 1;
+
+        $(add).on("click",function(e){
+            e.preventDefault();
+            if(x < max_fields){
+                x++;
+                $(wrapper).append(
+                    '<div class="form-group">' +
+                        '<div class="col-xs-5">' +
+                            '<input type="file" class="form-control" name="inputfile[]" />' +
+                        '</div>'+
+                        '<div class="col-xs-4">'+
+                            '<button type="button" class="btn btn-default removeButton"><i class="fa fa-minus"></i></button>'+
+                        '</div>'+
+                    '</div>'
+                );
+            }
+        });
+
+        $(wrapper).on("click",".removeButton", function(e){
+            e.preventDefault(); $(this).parent('div').parent('div').remove(); x--;
+        });
+		
+		$('#tpengadaan').datepicker({
+			autoclose : true
+		});
+
     });
 </script>
 

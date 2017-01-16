@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tipe</label>
-                                        <select class="selectpicker form-control" data-live-search="true" name="id_type">
+                                        <select class="form-control" data-live-search="true" name="id_type">
                                         <?php
                                         foreach ($type as $row) { ?>
                                           <option value="<?php echo $row->id_type?>"><?php echo $row->nama_type?></option>
@@ -34,7 +34,10 @@
                                         <?php } ?>
                                         </select>   
                                     </div>
-                                    
+                                    <div class="form-group">
+                                        <label>Tahun Pengadaan</label>
+                                        <input type="text" class="form-control" placeholder="Tahun Pengadaan" id="tpengadaan" name="tpengadaan" required>
+                                    </div>
                                     <div class="form-group">
                                         <label>Serial Number</label>
                                         <input type="text" class="form-control" placeholder="Serial Number" name="sn" required>
@@ -95,9 +98,9 @@
             }
             function showPosition(position) {
                 lat=position.coords.latitude;
-                //console.log(lat);
+                console.log(lat);
                 long=position.coords.longitude;
-                //console.log(long);
+                console.log(long);
                 out_map();
             }
         }
@@ -157,7 +160,10 @@
         $(wrapper).on("click",".removeButton", function(e){
             e.preventDefault(); $(this).parent('div').parent('div').remove(); x--;
         });
-
+		
+		$('#tpengadaan').datepicker({
+			autoclose : true
+		});
     });
 </script>
 

@@ -47,6 +47,10 @@
                     }
                 }
             });
+			var isFirefox = typeof InstallTrigger !== 'undefined';
+			if(!isFirefox){
+				alertify.alert("Gunakan Browser Mozilla Untuk Mendapatkan Tampilan Google Maps");
+			}
         });
     </script>
   </body>
